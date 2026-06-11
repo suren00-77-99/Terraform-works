@@ -1,0 +1,57 @@
+pipeline{
+    agent any
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
+    }
+
+    stages{
+        stage("checkout"){
+            steps{
+                git branch: 'main',
+                url: 'https://github.com/suren00-77-99/Terraform-works.git'
+            }
+        }
+        stage('Terraform init') {
+
+            steps {
+                dir('aws-ec2'){
+                     sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform validate') {
+
+            steps {
+                dir('aws-ec2'){
+                     sh 'terraform validate'
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+
+            steps {
+                dir('aws-ec2'){
+                     sh 'terraform plan -out=tfplan'
+                }
+            }
+        }
+        stage('Approval') {
+
+            steps {
+                input 'Approve Terrafrom?'
+            }
+        }
+
+        stage('Terraform Apply') {
+
+            steps {
+                dir('aws-ec2'){
+                     sh 'terraform apply -auto-approve tfplan'
+                }
+            }
+        }
+    }
+}
