@@ -1,11 +1,14 @@
 variable "aws_region" {
-  default = "us-east-1"
+  description = "AWS Region"
+  type        = string
 }
 
 variable "bucket_name" {
-  default = "suren-devops-bucket-12345"
+  description = "Name of the S3 bucket"
+  type        = string
 }
 
 variable "environment" {
-  default = "dev"
+  description = "Environment name"
+  type        = string
 }
