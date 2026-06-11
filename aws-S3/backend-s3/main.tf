@@ -1,13 +1,12 @@
-
 provider "aws" {
-  region = "ap-south-1"
+  region = var.aws_region
 }
 
-resource "aws_s3_bucket" "demo_bucket" {
+resource "aws_s3_bucket" "my_bucket" {
+  bucket = var.bucket_name
 
-  bucket = "suren-demo-bucket-123456"
   tags = {
-    Name = "Demo Bucket"
-    Env  = "Dev"
+    Name        = var.bucket_name
+    Environment = var.environment
   }
 }
